@@ -20,10 +20,9 @@
     </dependency>
 
     <dependency>
-      <groupId>org.jetbrains.teamcity</groupId>
-      <artifactId>server-web-api</artifactId>
+      <groupId>org.jetbrains.teamcity.internal</groupId>
+      <artifactId>server</artifactId>
       <version>${teamcity-version}</version>
-      <type>war</type>
       <scope>provided</scope>
     </dependency>
 
@@ -33,5 +32,6 @@
       <version>${teamcity-version}</version>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 </project>

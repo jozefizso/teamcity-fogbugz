@@ -3,4 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd"
        default-autowire="constructor">
+  <bean id="fogbugzIssueProviderType" class="io.goit.teamcity.fogbugz.FogbugzIssueProviderType" />
+
+  <bean id="fogbugzIssueFetcher" class="io.goit.teamcity.fogbugz.FogbugzIssueFetcher">
+    <constructor-arg index="0" ref="ehCacheUtil" />
+  </bean>
+
+  <bean id="fogbugzIssueProviderFactory" class="io.goit.teamcity.fogbugz.FogbugzIssueProviderFactory">
+    <constructor-arg index="0" ref="fogbugzIssueProviderType" />
+    <constructor-arg index="1" ref="fogbugzIssueFetcher" />
+  </bean>
 </beans>

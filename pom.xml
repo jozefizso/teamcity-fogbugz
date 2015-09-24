@@ -8,7 +8,7 @@
   <version>0.1-alpha</version>
   <packaging>pom</packaging>
   <properties>
-    <teamcity-version>9.0.3-SNAPSHOT</teamcity-version>
+    <teamcity-version>9.1-SNAPSHOT</teamcity-version>
   </properties>
   <repositories>
     <repository>

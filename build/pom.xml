@@ -12,10 +12,9 @@
   <packaging>pom</packaging>
   <properties>
     <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-    <teamcity.teamcity-fogbugz.plugin.version>snapshot-${maven.build.timestamp}
-    </teamcity.teamcity-fogbugz.plugin.version>
-    <teamcity.teamcity-fogbugz.plugin.vendorName>Plugin vendor name</teamcity.teamcity-fogbugz.plugin.vendorName>
-    <teamcity.teamcity-fogbugz.plugin.vendorUrl>Plugin vendor URL</teamcity.teamcity-fogbugz.plugin.vendorUrl>
+    <teamcity.teamcity-fogbugz.plugin.version>${version}${maven.build.timestamp}</teamcity.teamcity-fogbugz.plugin.version>
+    <teamcity.teamcity-fogbugz.plugin.vendorName>Jozef Izso</teamcity.teamcity-fogbugz.plugin.vendorName>
+    <teamcity.teamcity-fogbugz.plugin.vendorUrl>http://goit.sk</teamcity.teamcity-fogbugz.plugin.vendorUrl>
   </properties>
   <dependencies>
     <dependency>

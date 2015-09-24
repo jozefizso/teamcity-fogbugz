@@ -8,8 +8,8 @@
     <download-url>https://github.com/jozefizso/teamcity-fogbugz</download-url>
     <email>jozef.izso@gmail.com</email>
     <vendor>
-      <name>Jozef Izso</name>
-      <url>http://goit.sk</url>
+      <name>@VendorName@</name>
+      <url>@VendorUrl@</url>
     </vendor>
   </info>
   <deployment use-separate-classloader="true" />
