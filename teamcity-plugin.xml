@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<teamcity-plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:schemas-jetbrains-com:teamcity-plugin-v1-xml">
+  <info>
+    <name>teamcity-fogbugz</name>
+    <display-name>teamcity-fogbugz</display-name>
+    <version>@Version@</version>
+    <description>Integrates FogBugz issue tracker with TeamCity.</description>
+    <download-url>https://github.com/jozefizso/teamcity-fogbugz</download-url>
+    <email>jozef.izso@gmail.com</email>
+    <vendor>
+      <name>Jozef Izso</name>
+      <url>http://goit.sk</url>
+    </vendor>
+  </info>
+  <deployment use-separate-classloader="true" />
+</teamcity-plugin>
