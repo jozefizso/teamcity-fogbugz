@@ -11,7 +11,7 @@ public class FogbugzIssueProviderType extends IssueProviderType {
     private final String myPopupUrl;
 
     public FogbugzIssueProviderType(@NotNull final PluginDescriptor pluginDescriptor) {
-        myConfigUrl = pluginDescriptor.getPluginResourcesPath("buildServerResources/editIssueProvider.jsp");
+        myConfigUrl = pluginDescriptor.getPluginResourcesPath("admin/editIssueProvider.jsp");
         myPopupUrl = pluginDescriptor.getPluginResourcesPath("popup.jsp");
     }
 
