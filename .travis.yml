@@ -1,6 +1,23 @@
 sudo: false
+
 language: java
-script: mvn test
 jdk:
   - oraclejdk7
   - openjdk7
+
+script:
+  - mvn test
+
+after_success:
+  - mvn clean cobertura:cobertura coveralls:report -Dcoveralls.token=${COVERALLS_TOKEN}
+
+cache:
+  directories:
+    - $HOME/.m2
+
+env:
+  global:
+    # Generated with these instructions: http://docs.travis-ci.com/user/encryption-keys/
+    # gem install travis
+    # travis encrypt COVERALLS_TOKEN=<the token from coveralls>
+    secure: gb2AZCVAOEU09vToO8leXhL99TeaxqLtUSDrTwXsnBlGYFYHaQzOoroEv/VRNhfQNfR/1KE5MI/yYbKNo32AIuJWRrZKBV6E4L1P9iqcPllj3yCZwKZ1nX0wm0sIUPnuDbAz23YApp/LkabTx6agzoo7YBRLYQiM16ead5gnHjYef6zqi/k1iEdGbN75O+M4XWV9hKzR0WmuXXP5Iw2Arez3j0Q20jlSSiQE7QXZZnH32UlgNKwXc/rLikWUqMabYrI8dbTR5ThRg902TIKaSFuog2u8i23Vo8FteurnF+T643RvYUrfpKlcRnr3Xgf/zboCwGfSGYK4+qDZUmUa1L5hF9N/ILBP/mSUCUEeV04j+A6vsnn8X3iH1eVKGdVv5eg7we3KAfqaZkMKWoG0AE0M/Zu+ec3TO+WbVD4jTxBUDS4MPOxcipyV0mPcmilrkYedBNVSvBiGef4FQVq3zXS6Nky6D/G8stG7Pcgvs2/canIX0HHMeNFB0goPRW359pjlotU6Zqsr4NlFk+geQCaEHUuORCJ030PrCo6wHjKkg7GCN/JJqq6M4qXb6LeG9bI8uRI0i2f8lhsc6roLzziZCLaGXVpWiqvniR15YHN1YYeTsqbTIKmptZaYN4TW1YSt88Cs0yuaYjJ4zrzY90pcMN+Hyt/r+ZCaCQZhuw0=
