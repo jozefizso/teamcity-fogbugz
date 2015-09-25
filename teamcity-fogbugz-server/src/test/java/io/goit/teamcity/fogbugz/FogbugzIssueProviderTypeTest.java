@@ -1,12 +1,8 @@
 package io.goit.teamcity.fogbugz;
 
 import jetbrains.buildServer.web.openapi.PluginDescriptor;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
-
-import java.io.File;
 
 import static org.testng.Assert.*;
 
