@@ -3,7 +3,7 @@ TeamCity FogBugz issue tracker integration
 
 [![Travis](https://img.shields.io/travis/jozefizso/teamcity-fogbugz.svg)](https://travis-ci.org/jozefizso/teamcity-fogbugz)
 [![Coverage Status](https://img.shields.io/coveralls/jozefizso/teamcity-fogbugz.svg)](https://coveralls.io/github/jozefizso/teamcity-fogbugz?branch=master)
-[MIT License](https://img.shields.io/github/license/jozefizso/teamcity-fogbugz.svg)
+![MIT License](https://img.shields.io/github/license/jozefizso/teamcity-fogbugz.svg)
 
 This plugin enables TeamCity to integrate with FogBugz using
 issue tracker API.
