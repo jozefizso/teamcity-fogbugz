@@ -15,38 +15,7 @@ public class FogbugzIssueProviderTypeTest {
 
     @BeforeTest
     public void beforeTest() {
-        PluginDescriptor descriptor = new PluginDescriptor() {
-            @NotNull
-            public String getPluginName() {
-                return null;
-            }
-
-            @NotNull
-            public String getPluginResourcesPath() {
-                return null;
-            }
-
-            @NotNull
-            public String getPluginResourcesPath(String relativePath) {
-                return "/teamcity/resources/" + relativePath;
-            }
-
-            @Nullable
-            public String getParameterValue(String key) {
-                return null;
-            }
-
-            @Nullable
-            public String getPluginVersion() {
-                return null;
-            }
-
-            @NotNull
-            public File getPluginRoot() {
-                return null;
-            }
-        };
-
+        PluginDescriptor descriptor = new PluginDescriptorStub();
         this.providerType = new FogbugzIssueProviderType(descriptor);
     }
 
