@@ -17,6 +17,10 @@ public class FogbugzIssueProvider extends AbstractIssueProvider {
     protected String extractId(@NotNull String match) {
         Matcher matcher = myPattern.matcher(match);
         matcher.find();
-        return matcher.group(1);
+        if (matcher.groupCount() >= 1) {
+            return matcher.group(1);
+        }
+
+        return "";
     }
 }
