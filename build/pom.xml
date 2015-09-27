@@ -6,7 +6,7 @@
   <parent>
     <artifactId>teamcity-fogbugz</artifactId>
     <groupId>teamcity</groupId>
-    <version>0.2-alpha</version>
+    <version>1.0.0</version>
   </parent>
   <artifactId>build</artifactId>
   <packaging>pom</packaging>
@@ -20,7 +20,7 @@
     <dependency>
       <groupId>teamcity</groupId>
       <artifactId>teamcity-fogbugz-server</artifactId>
-      <version>0.2-alpha</version>
+      <version>1.0.0</version>
     </dependency>
   </dependencies>
   <build>
