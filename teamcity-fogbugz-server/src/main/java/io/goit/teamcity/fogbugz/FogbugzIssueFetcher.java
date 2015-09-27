@@ -15,6 +15,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Locale;
 
 public class FogbugzIssueFetcher extends AbstractIssueFetcher {
     public FogbugzIssueFetcher(@NotNull EhCacheUtil cacheUtil) {
@@ -76,24 +78,36 @@ public class FogbugzIssueFetcher extends AbstractIssueFetcher {
                     throw new RuntimeException(element.getTextContent());
                 }
 
-                String summary;
-                String status = "";
+                HashMap<String, String> fields = new HashMap<String, String>();
+
                 Boolean resolved = false;
+                Boolean isFeatureRequest = false;
 
                 Node fbCase = element.getFirstChild();
                 if (fbCase == null) {
-                    summary = String.format("Case #%s does not exist.", id);
+                    String title = String.format("Case #%s does not exist.", id);
+                    fields.put(IssueData.SUMMARY_FIELD, title);
                 } else {
-                    Node summaryNode = fbCase.getFirstChild();
-                    Node statusNode = summaryNode.getNextSibling();
-                    Node resolvedNode = summaryNode.getNextSibling();
+                    for (Node child = fbCase.getFirstChild(); child != null; child = child.getNextSibling()) {
+                        String name = child.getNodeName();
+                        String text = child.getTextContent();
 
-                    summary = summaryNode.getTextContent();
-                    status = statusNode.getTextContent();
-                    resolved = !"".equals(resolvedNode.getTextContent());
+                        if ("sTitle".equals(name)) {
+                            fields.put(IssueData.SUMMARY_FIELD, text);
+                        } else if ("sStatus".equals(name)) {
+                            fields.put(IssueData.STATE_FIELD, text);
+                        } else if ("sPriority".equals(name)) {
+                            fields.put(IssueData.PRIORITY_FIELD, text);
+                        } else if ("sCategory".equals(name)) {
+                            fields.put(IssueData.TYPE_FIELD, text);
+                            isFeatureRequest = "feature".equals(text.toLowerCase(Locale.US));
+                        } else if ("dtResolved".equals(name)) {
+                            resolved = !"".equals(text);
+                        }
+                    }
                 }
 
-                return new IssueData(id, summary, status, getUrl(host, id), resolved);
+                return new IssueData(id, fields, resolved, isFeatureRequest, getUrl(host, id));
             } finally {
                 if (null != token) {
                     fetchHttpFile(getLogoffUrl(host, token), credentials);
@@ -114,7 +128,8 @@ public class FogbugzIssueFetcher extends AbstractIssueFetcher {
 
         private String getCaseUrl(String host, String id, String token) throws UnsupportedEncodingException {
             id = URLEncoder.encode(id, "UTF-8");
-            return host + "api.asp?cmd=search&cols=sLatestTextSummary,sStatus,dtResolved&q=" + id + "&token=" + token;
+            //return host + "api.asp?cmd=search&cols=sLatestTextSummary,sStatus,dtResolved&q=" + id + "&token=" + token;
+            return host + "api.asp?cmd=search&cols=sTitle,sStatus,sCategory,sPriority,dtResolved&q=" + id + "&token=" + token;
         }
     }
 }
