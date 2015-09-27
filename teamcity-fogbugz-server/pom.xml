@@ -6,7 +6,7 @@
   <parent>
     <artifactId>teamcity-fogbugz</artifactId>
     <groupId>teamcity</groupId>
-    <version>0.1-alpha</version>
+    <version>0.2-alpha</version>
   </parent>
   <artifactId>teamcity-fogbugz-server</artifactId>
   <packaging>jar</packaging>
