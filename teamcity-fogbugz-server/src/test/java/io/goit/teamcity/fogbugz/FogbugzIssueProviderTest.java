@@ -19,7 +19,7 @@ public class FogbugzIssueProviderTest {
         String actualId = provider.extractId("BugzId: 123456");
 
         // Assert
-        assertEquals(actualId, "BugzId: 123456");
+        assertEquals(actualId, "123456");
     }
 
     @NotNull
