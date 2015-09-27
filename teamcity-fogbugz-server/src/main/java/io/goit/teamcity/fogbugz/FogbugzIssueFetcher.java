@@ -5,11 +5,8 @@ import jetbrains.buildServer.issueTracker.IssueData;
 import jetbrains.buildServer.util.cache.EhCacheUtil;
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.springframework.web.util.UriUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -18,11 +15,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.regex.Matcher;
 
 public class FogbugzIssueFetcher extends AbstractIssueFetcher {
-    private final static Log LOG = LogFactory.getLog(FogbugzIssueFetcher.class);
-
     public FogbugzIssueFetcher(@NotNull EhCacheUtil cacheUtil) {
         super(cacheUtil);
     }
