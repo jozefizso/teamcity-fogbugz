@@ -13,7 +13,6 @@ public class FogbugzIssueProvider extends AbstractIssueProvider {
         super(type.getType(), fetcher);
     }
 
-
     /**
      * Special overload for unit testing the pattern matching.
      */
@@ -31,5 +30,10 @@ public class FogbugzIssueProvider extends AbstractIssueProvider {
         }
 
         return "";
+    }
+
+    @Override
+    protected boolean useIdPrefix() {
+        return super.useIdPrefix();
     }
 }
