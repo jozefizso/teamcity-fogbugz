@@ -2,6 +2,7 @@ package io.goit.teamcity.fogbugz;
 
 import jetbrains.buildServer.issueTracker.AbstractIssueFetcher;
 import jetbrains.buildServer.issueTracker.IssueData;
+import jetbrains.buildServer.issueTracker.IssueProvider;
 import jetbrains.buildServer.util.cache.EhCacheUtil;
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
@@ -12,7 +13,9 @@ import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.InputStream;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
@@ -59,8 +62,7 @@ public class FogbugzIssueFetcher extends AbstractIssueFetcher {
             try {
                 String loginUrl = getLogonUrl(host, credentials);
                 InputStream data = fetchHttpFile(loginUrl, credentials);
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-                DocumentBuilder db = dbf.newDocumentBuilder();
+                DocumentBuilder db = createDocumentBuilder();
                 Document doc = db.parse(data);
                 doc.getDocumentElement().normalize();
                 Node element = doc.getFirstChild().getFirstChild();
@@ -72,47 +74,59 @@ public class FogbugzIssueFetcher extends AbstractIssueFetcher {
                 String caseUrl = getCaseUrl(host, id, token);
 
                 data = fetchHttpFile(caseUrl, credentials);
-                doc = db.parse(data);
-                element = doc.getFirstChild().getFirstChild();
-                if (element.getNodeName() == "error") {
-                    throw new RuntimeException(element.getTextContent());
-                }
 
-                HashMap<String, String> fields = new HashMap<String, String>();
-
-                Boolean resolved = false;
-                Boolean isFeatureRequest = false;
-
-                Node fbCase = element.getFirstChild();
-                if (fbCase == null) {
-                    String title = String.format("Case #%s does not exist.", id);
-                    fields.put(IssueData.SUMMARY_FIELD, title);
-                } else {
-                    for (Node child = fbCase.getFirstChild(); child != null; child = child.getNextSibling()) {
-                        String name = child.getNodeName();
-                        String text = child.getTextContent();
-
-                        if ("sTitle".equals(name)) {
-                            fields.put(IssueData.SUMMARY_FIELD, text);
-                        } else if ("sStatus".equals(name)) {
-                            fields.put(IssueData.STATE_FIELD, text);
-                        } else if ("sPriority".equals(name)) {
-                            fields.put(IssueData.PRIORITY_FIELD, text);
-                        } else if ("sCategory".equals(name)) {
-                            fields.put(IssueData.TYPE_FIELD, text);
-                            isFeatureRequest = "feature".equals(text.toLowerCase(Locale.US));
-                        } else if ("dtResolved".equals(name)) {
-                            resolved = !"".equals(text);
-                        }
-                    }
-                }
-
-                return new IssueData(id, fields, resolved, isFeatureRequest, getUrl(host, id));
+                IssueData issue = this.parseXml(data, db);
+                return issue;
             } finally {
                 if (null != token) {
                     fetchHttpFile(getLogoffUrl(host, token), credentials);
                 }
             }
+        }
+
+        protected DocumentBuilder createDocumentBuilder() throws ParserConfigurationException {
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            return dbf.newDocumentBuilder();
+        }
+
+        public IssueData parseXml(InputStream data, DocumentBuilder db) throws Exception {
+            Document doc = db.parse(data);
+            doc.getDocumentElement().normalize();
+            Node element = doc.getFirstChild().getFirstChild();
+            if (element.getNodeName() == "error") {
+                throw new RuntimeException(element.getTextContent());
+            }
+
+            HashMap<String, String> fields = new HashMap<String, String>();
+
+            Boolean resolved = false;
+            Boolean isFeatureRequest = false;
+
+            Node fbCase = element.getFirstChild();
+            if (fbCase == null) {
+                String title = String.format("Case #%s does not exist.", id);
+                fields.put(IssueData.SUMMARY_FIELD, title);
+            } else {
+                for (Node child = fbCase.getFirstChild(); child != null; child = child.getNextSibling()) {
+                    String name = child.getNodeName();
+                    String text = child.getTextContent();
+
+                    if ("sTitle".equals(name)) {
+                        fields.put(IssueData.SUMMARY_FIELD, text);
+                    } else if ("sStatus".equals(name)) {
+                        fields.put(IssueData.STATE_FIELD, text);
+                    } else if ("sPriority".equals(name)) {
+                        fields.put(IssueData.PRIORITY_FIELD, text);
+                    } else if ("sCategory".equals(name)) {
+                        fields.put(IssueData.TYPE_FIELD, text);
+                        isFeatureRequest = "feature".equals(text.toLowerCase(Locale.US));
+                    } else if ("dtResolved".equals(name)) {
+                        resolved = !"".equals(text);
+                    }
+                }
+            }
+
+            return new IssueData(id, fields, resolved, isFeatureRequest, getUrl(host, id));
         }
 
         private String getLogonUrl(String host, Credentials credentials) throws UnsupportedEncodingException {
