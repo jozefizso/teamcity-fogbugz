@@ -10,7 +10,7 @@ issue tracker API.
 
 Supported TeamCity servers:
 
-* TeamCity 9.1
+* TeamCity 9.1 (Java 1.7 and newer)
 
 
 ## Contributing
