@@ -13,15 +13,26 @@ Supported TeamCity servers:
 * TeamCity 9.1 (Java 1.7 and newer)
 
 
+## Install
+To install the plugin, put zip archive to **plugins** directory
+under TeamCity data directory.
+
 ## Contributing
 
 ### 1. Build
 Issue `mvn package` command from the root project to build the plugin.
 Resulting package will be placed in **target** directory. 
 
-### 2. Install
-To install the plugin, put zip archive to **plugins** directory
-under TeamCity data directory.
+### 2. Run
+
+The `tc-sdk:start` goal will automatically download and run the TeamCity server
+and install the plugin.
+
+```
+mvn package tc-sdk:start
+```
+
+[TeamCity plugin goals documentation](https://github.com/JetBrains/teamcity-sdk-maven-plugin#plugin-goals)
 
 
 ## License
